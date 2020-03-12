@@ -8,30 +8,47 @@ import DefaultView from "./components/DefaultView.js";
 import { CSSTransition } from "react-transition-group";
 import Modal from "./components/Modal.js";
 import CastView from "./components/CastView"
+import MovieDetailsView from "./components/MovieDetailsView";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true,
-      searchedAll: "All",
+      searchedAll: true,
       movies: [],
       IsOpen: false,
       favourites: [],
       altFav: [],
-      filteredByTitles:[]
+      filteredByTitles:[],
+      listOfSearchedMovies: []
     };
   }
+//movie search by title
+searchTitle = (e) => {
+  let curList = [];
+  let newList = [];
 
-  //movie filter by title
-  filterTitle = (titleFilter) =>{
-    let filteredByTitles = this.state.movies
-    filteredByTitles = filteredByTitles.filter((titles) =>{
-      let titleName = titles.title.toLowerCase()
-      return titleName.indexOf(titleFilter.toLowerCase()) !== -1
-    })
-    this.setState({filteredByTitles})
-      }
+  if (e.target.value !==""){
+    curList = this.state.movies;
+
+    newList = curList.filter(titles =>{
+      const lc = titles.title.toLowerCase();
+      const filter = e.target.value.toLowerCase();
+      return lc.includes(filter);
+
+    });
+  }else
+  {
+    newList = this.state.movies;
+    
+  }
+  this.setState({
+    filteredByTitles: newList
+  });
+  console.log(this.state.filteredByTitles)
+}
+ 
    //checks modal state open or close
   toggleModal = () => {
     this.setState({
@@ -108,24 +125,45 @@ class App extends React.Component {
 //checking if show all movie button pressed
   clickedSearchAll = () => {
     this.setState({
-      searchedAll: "All"
-    });
+      searchedAll: true 
+    }, () => {
+      this.checkSearchType()});
+    
     console.log(this.state.searchedAll);
   };
 //checking of filter by title button pressed
   clickedSearchTitle = () => {
     this.setState({
-      searchedAll: "Title"
-    });
+      searchedAll: false
+    }, () => {
+      this.checkSearchType()});
     console.log(this.state.searchedAll);
+    return (this.state.filteredByTitles);
   };
 //sorting movies aray from json daya alphabetically
   sortAlpha = () => {
     let tempMovie = Array.from(this.state.movies);
     tempMovie.sort((a, b) => a.title - b.title);
     this.setState({ movies: tempMovie });
-    console.log("hi");
   };
+  //fill in the array for if title is searched
+  checkSearchType = async () => {
+
+    if (this.state.searchedAll) {
+      this.setState({listOfSearchedMovies: this.state.movies});
+    } 
+    else if (!this.state.searchedAll) {
+      this.setState({listOfSearchedMovies: this.state.filteredByTitles});
+    }
+    console.log(this.state.listOfSearchedMovies);
+  };
+
+  populateMovieFilterList = (customList) => {
+    this.setState({
+      listOfSearchedMovies: customList
+    })
+  }
+
 
   render() {
     return (
@@ -141,7 +179,10 @@ class App extends React.Component {
                 searchedAll={this.state.searchedAll}
                 clickedSearchTitle={this.clickedSearchTitle}
                 sortAlpha={this.sortAlpha}
-                filterTitle={this.filterTitle}
+                //filterTitle={this.filterTitle}
+                clickedSearchTitle={this.clickedSearchTitle}
+                searchTitle ={this.searchTitle}
+               // checkSearchType={this.checkSearchType}
               />
             )}
           />
@@ -160,6 +201,9 @@ class App extends React.Component {
                 handleAddFav={this.handleAddFav}
                 handleDeleteFav={this.handleDeleteFav}
                 favourites={this.state.favourites}
+                filterTitle={this.filterTitle}
+                listOfSearchedMovies={this.state.listOfSearchedMovies}
+                populateMovieFilterList={this.populateMovieFilterList}
               />
             )}
           />
@@ -168,6 +212,17 @@ class App extends React.Component {
             exact
             render={props => (
           <CastView  
+                handleAddFav={this.handleAddFav}
+                handleDeleteFav={this.handleDeleteFav}
+                favourites={this.state.favourites}
+                show={this.state.isOpen}
+                onClose={this.toggleModal}/>
+                )} />
+                <Route
+            path="/MovieDetailsView"
+            exact
+            render={props => (
+          <MovieDetailsView 
                 handleAddFav={this.handleAddFav}
                 handleDeleteFav={this.handleDeleteFav}
                 favourites={this.state.favourites}

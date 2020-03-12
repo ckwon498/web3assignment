@@ -1,5 +1,6 @@
 import React from "react";
 import Favourites from "./Favourites.js";
+import Header from "./Header.js";
 import { Link } from "react-router-dom";
 class MovieDetailsView extends React.Component {
   handleShowAll = () => {
@@ -9,8 +10,12 @@ class MovieDetailsView extends React.Component {
     return (
       <div>
         <div className="header">
-          <Header />
-          <Favourites />
+          <Header show={this.props.isOpen} onClose={this.props.onClose}/>
+          <Favourites
+            handleDeleteFav={this.props.handleDeleteFav}
+            favourites={this.props.favourites}
+          />
+          <div className ="castNameContainer"></div>
         </div>
       </div>
     );

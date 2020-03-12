@@ -3,9 +3,9 @@ import Favourites from "./Favourites.js";
 import Header from "./Header.js";
 import { Link } from "react-router-dom";
 class CastView extends React.Component {
-  handleShowAll = () => {
-    this.props.viewHome();
-  };
+  // handleShowAll = () => {
+  //   this.props.viewHome();
+  // };
   render() {
     return (
       <div>

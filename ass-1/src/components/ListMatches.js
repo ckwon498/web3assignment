@@ -3,18 +3,17 @@ import { Link } from "react-router-dom";
 import MatchedMovie from "./MatchedMovie";
 
 class ListMatches extends React.Component {
-  /*checkSearchType() {
-    if (this.props.searchedAll == "All") {
-    } else {
-    }
-  }*/
+  
   render() {
     let loadingImgURL =
       "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif";
+      
     return (
       <div className="matchedList">
         <ul>
-          {this.props.movies.map((m, key) => (
+          {
+          
+          this.props.listOfSearchedMovies.map((m, key) => (
             <MatchedMovie
               movies={this.props.movies}
               searchedAll={this.searchedAll}

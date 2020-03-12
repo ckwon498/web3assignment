@@ -15,9 +15,11 @@ class MatchedMovie extends React.Component {
   render() {
     return (
       <div className="eachMovie">
+        <Link to="/MovieDetailsView">
         <figure id="matchedMoviePosterFig">
           <img id="matchedMoviePoster" src={"https://image.tmdb.org/t/p/w342" + this.props.poster} />
         </figure>
+        </Link>
         <div>
           <h3 id="matchedMovieTitle">{this.props.title}</h3>
           <h4>{this.props.year}</h4>

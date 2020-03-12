@@ -36,7 +36,7 @@ class Modal extends React.Component {
         <h4>Programmer:</h4>
         <p>Hoang Minh Vu - 201597301 | Chris Kwong - 2012334498</p>
         <h4>Git Hub</h4>
-        <p>https://github.com/ckwon498/Web3Assignment1.git</p>
+        <p>https://github.com/ckwon498/Web3Assignment.git</p>
           <div className="footer">
             <button onClick={this.props.onClose}>Close</button>
           </div>

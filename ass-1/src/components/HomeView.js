@@ -5,26 +5,13 @@ import "./css/HomeView.css";
 import SearchFilter from "./SearchFilter";
 
 class HomeView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { titleInp: "" };
-  }
+  
   handleShowAll = () => {
-    //    this.props.SortAlpha();
     this.props.clickedSearchAll();
-    console.log(this.props.movies);
   };
-  handleTitleSearch = e => {
-    e.preventDefault();
-    var title = this.state.title;
-    alert('You enetered "' + this.state.titleInp + '" but our title filter is undergoing maintenance please try again later');
-    
-  };
-  handleTitleInput = val => {
-    this.setState({
-      titleInp: val.target.value
-    });
-   
+
+  handleTitleSearch = () => {
+  let FoundTitles = this.props.clickedSearchTitle();
   };
 
   render() {
@@ -51,12 +38,13 @@ class HomeView extends React.Component {
               type="text"
               id="searchInput"
               name="title"
-              onChange={val => this.handleTitleInput(val)}
+              onChange={this.props.searchTitle}
+              placeholder="Enter Title"
             />
             <div>
               <Link to="/DefaultView">
-                <button onClick={this.handleTitleSearch} titleInp={this.state.titleInp}>
-                  Search Matching Movies
+                <button onClick={this.handleTitleSearch}>
+                  Search Movies by Title
                 </button>
               </Link>
               <Link to="/DefaultView">
